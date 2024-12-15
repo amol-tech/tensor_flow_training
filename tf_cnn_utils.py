@@ -45,7 +45,7 @@ def view_random_image(target_dir,target_class):
         print('Error : ',target_path,' path does not exist')
         return None
     
-def process_data(train_dir,test_dir,augmented+False):
+def process_data(train_dir,test_dir,augmented=False):
     tf.random.set_seed(32)        
     if augmented:
         train_data_gen = ImageDataGenerator(rescale=1./255,rotation_range=0.2,width_shift_range=0.2,height_shift_range=0.2,zoom_range=0.2,horizontal_flip=True)
@@ -64,3 +64,12 @@ def view_accurracy_loss(hist_model,model_name):
     df_eval_loss = df_eval[['loss','val_loss']]
     df_eval_accurracy.plot(title= model_name + '- Accuracy')
     df_eval_loss.plot(title= model_name + ' - Loss')
+    
+def load_and_prep_image(file_name,img_shape=224):
+    img = tf.io.read_file(file_name)
+    img = tf.image.decode_image(img)
+    img = tf.image.resize(img,size=[img_shape,img_shape])
+    img = img/255
+    plt.imshow(img)
+    return img
+    
