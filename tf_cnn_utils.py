@@ -77,7 +77,7 @@ def load_and_prep_image(file_name,img_shape=224):
 
 def create_tenosrboard_callback(dir_name,exp_name):
     log_dir = dir_name + '/' + exp_name + '/' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
+    tensorboard_callback = tf_keras.callbacks.TensorBoard(log_dir=log_dir)
     print('Saving Tensorboard log files to -> ',log_dir)
     return tensorboard_callback
 
