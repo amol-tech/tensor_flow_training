@@ -60,6 +60,17 @@ def process_data(train_dir,test_dir,augmented=False):
     test_data = test_data_gen.flow_from_directory(directory=test_dir, batch_size=32,target_size=(224,224),class_mode='categorical',seed=32)
     return train_data,test_data
 
+def process_image_data(train_dir,test_dir,augmented=False):
+    tf.random.set_seed(32)
+    train_data = tf.keras.preprocessing.image_dataset_from_directory(directory=train_dir,
+                                                                     image_size=(224,224),
+                                                                     label_mode='categorical', 
+                                                                     batch_size=32)
+    test_data = tf.keras.preprocessing.image_dataset_from_directory(directory=test_dir,
+                                                                    image_size=(224,224),
+                                                                    label_mode='categorical',
+                                                                    batch_size=32)
+
 def view_accurracy_loss(hist_model,model_name):
     df_eval = pd.DataFrame(hist_model.history)
     df_eval_accurracy = df_eval[['accuracy','val_accuracy']]
