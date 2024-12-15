@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
+import datetime
+import tensorflow_hub as hub
+import tf_keras
 
 def extract_data_zip(zip_file):
     zip_folder = zip_file.replace('.zip','')
@@ -72,4 +74,20 @@ def load_and_prep_image(file_name,img_shape=224):
     img = img/255
     plt.imshow(img)
     return img
+
+def create_tenosrboard_callback(dir_name,exp_name):
+    log_dir = dir_name + '/' + exp_name + '/' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
+    print('Saving Tensorboard log files to -> ',log_dir)
+    return tensorboard_callback
+
+def create_transfer_learning_model(model_url,no_classes=10):
+    feature_extraction_layer = hub.KerasLayer(model_url,trainable=False,
+                                              name='feature_extraction_layer',
+                                              input_shape=(224,224,3))
+    model = tf_keras.Sequential([
+        feature_extraction_layer,
+        tf_keras.layers.Dense(no_classes,activation='softmax',name='output_layer'),
+    ])
+    return model
     
