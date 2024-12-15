@@ -70,6 +70,7 @@ def process_image_data(train_dir,test_dir,augmented=False):
                                                                     image_size=(224,224),
                                                                     label_mode='categorical',
                                                                     batch_size=32)
+    return train_data,test_data
 
 def view_accurracy_loss(hist_model,model_name):
     df_eval = pd.DataFrame(hist_model.history)
