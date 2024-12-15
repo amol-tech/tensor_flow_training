@@ -15,7 +15,7 @@ import tf_keras
 def extract_data_zip(zip_file):
     zip_folder = zip_file.replace('.zip','')
     if not(os.path.exists(zip_folder)):
-        zip_ref = zipfile.ZipFile('10_food_classes_all_data.zip')
+        zip_ref = zipfile.ZipFile(zip_file)
         zip_ref.extractall()
         zip_ref.close()
         print(zip_file,'extracted succesfully!')
